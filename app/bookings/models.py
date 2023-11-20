@@ -1,9 +1,9 @@
 from app.database import Base
 from sqlalchemy import JSON, Column, Computed, Date, ForeignKey, Integer, String
 
+
 class Bookings(Base):
     __tablename__ = 'bookings'
-
 
     id = Column(Integer, primary_key=True)
     room_id = Column(Integer, ForeignKey("rooms.id"))
