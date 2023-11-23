@@ -13,7 +13,7 @@ from app.config import settings
 from app.database import Base
 # from app.database import DATABASE_URL
 from app.bookings.models import Bookings
-from app.hotels.models import Hotels, Rooms
+from app.hotels.models import Hotels
 from app.users.models import Users
 
 # this is the Alembic Config object, which provides
