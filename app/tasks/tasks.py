@@ -23,13 +23,15 @@ def process_pic(
 
 
 @celery.task
-def send_email(
+def send_booking_confirmation_email(
         booking: dict,
         email_to: EmailStr,
 ):
+    print("получил задание")
     email_to_mock = settings.SMTP_USER
-    msg_content = create_booking_confirmation_email(booking=booking, email_to=email_to)
+    msg_content = create_booking_confirmation_email(booking, email_to)
 
     with smtplib.SMTP_SSL(settings.SMTP_HOST, settings.SMTP_PORT) as server:
         server.login(settings.SMTP_USER, settings.SMTP_PASS)
-        server.sendmail(email_to, email_to, msg_content)
+        server.sendmail(settings.SMTP_USER, email_to, msg_content.as_string())
+

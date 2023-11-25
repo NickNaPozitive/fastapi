@@ -91,7 +91,7 @@ class BookingDAO(BaseDAO):
             )
             rooms_left = await session.execute(get_rooms_left)
             rooms_left: int = rooms_left.scalar()
-            if rooms_left > 0:
+            if not rooms_left or rooms_left > 0:
                 get_price = select(Rooms.price).where(Rooms.id == room_id)
                 price = await session.execute(get_price)
                 price: int = price.scalar()

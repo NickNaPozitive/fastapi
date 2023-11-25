@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from datetime import date
 
-from app.tasks.tasks import send_email
+from app.tasks.tasks import send_booking_confirmation_email
 
 from pydantic import parse_obj_as
 
@@ -31,5 +31,5 @@ async def add_booking(
 ):
     booking = await BookingDAO().add(user.id, room_id, data_from, data_to)
     booking_dict = parse_obj_as(SBooking, booking).dict()
-    send_email.delay(booking_dict, user.email)
+    send_booking_confirmation_email.delay(booking_dict, user.email)
     return booking_dict
