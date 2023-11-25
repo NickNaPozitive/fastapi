@@ -1,13 +1,18 @@
+from sqlalchemy import NullPool
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import settings
+if settings.MODE == "TEST":
+    DATABASE_URL = settings.TEST_DATABASE_URL
+    DATABASE_PARAMS = {"poolclass": NullPool}
+    print(DATABASE_URL)
+else:
+    DATABASE_URL = settings.DATABASE_URL
+    DATABASE_PARAMS = {}
+    print(DATABASE_URL)
 
-# DATABASE_URL = "postgresql+asyncpg://postgres:nick@localhost:5432/postgres"
-# engine = create_async_engine(DATABASE_URL)
-
-
-engine = create_async_engine(settings.DATABASE_URL)
+engine = create_async_engine(DATABASE_URL, **DATABASE_PARAMS)
 
 async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
 

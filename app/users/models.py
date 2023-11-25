@@ -1,10 +1,15 @@
 from app.database import Base
-from sqlalchemy import JSON, Column, Integer, String
+from sqlalchemy.orm import relationship, mapped_column, Mapped
 
 
 class Users(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
-    id = Column(Integer, primary_key=True)
-    email = Column(String, nullable=False)
-    hashed_password = Column(String, nullable=False)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    email: Mapped[str]
+    hashed_password: Mapped[str]
+
+    bookings: Mapped[list["Bookings"]] = relationship(back_populates="user")
+
+    def __str__(self):
+        return f"Пользователь {self.email}"
